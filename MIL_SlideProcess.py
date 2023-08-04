@@ -18,7 +18,7 @@ def seg_slide(slide, seg_level, patch_size):
        
     """
 
-    def _filter_contours(contours, hierarchy, filter_params):  # 孔洞滤波
+    def _filter_contours(contours, hierarchy, filter_params):  
         """
             Filter contours by: area.
             hierarchy
@@ -92,7 +92,7 @@ def seg_slide(slide, seg_level, patch_size):
 
     
     contours_tissue = scaleContourDim(foreground_contours, scale)#
-    holes_tissue = scaleHolesDim(hole_contours, scale)#获取组织中孔洞的轮廓
+    holes_tissue = scaleHolesDim(hole_contours, scale)
     return contours_tissue, holes_tissue
 
 def vis_slide(slide, contours_tissue, holes_tissue, vis_level):
@@ -164,7 +164,7 @@ def tiling_slide(slide, contours_tissue, holes_tissue, patch_level, patch_size, 
             x, y = coord["x"], coord["y"]
             grid.append((x, y))
             num += 1
-    print("共采集{}个坐标点".format(num))
+    
     return grid
 
 def isInContourV1(cont, pt, patch_size=None):
@@ -220,13 +220,13 @@ def _getPatchGenerator(slide, cont, cont_idx, patch_level, holes_tissue, patch_s
     """
     get patch
     :param slide: openslide.OpenSlide
-    :param cont: contours组织轮廓
-    :param cont_idx:组织轮廓的索引
+    :param cont: contours
+    :param cont_idx:
     :param patch_level:
-    :param save_path:保存的路径
+    :param save_path:
     :param holes_tissue:
     :param patch_size:
-    :param step_size:步长
+    :param step_size:
     :param name:
     :return:
     """
@@ -282,7 +282,7 @@ def _getPatchGenerator(slide, cont, cont_idx, patch_level, holes_tissue, patch_s
                 continue #
 
             count += 1
-            # patch_PIL = slide.read_region((x, y), patch_level, (ref_patch_size[0], ref_patch_size[1])).convert('RGB')
+            # patch_PIL = slide.read_region((x, y), 0, (ref_patch_size[0], ref_patch_size[1])).convert('RGB')
             patch_PIL = slide.read_region((x, y), patch_level, (patch_size, patch_size)).convert('RGB')
 
             if white_black:
@@ -413,7 +413,7 @@ def stitching(grid, downscale=64):
 
 if __name__ == '__main__':
     parse = argparse.ArgumentParser("whole slide image preprocessing!")
-    parse.add_argument("--slide_path", default=r"/home/omnisky/verybigdisk/CAMELYON16/training", type=str, help="slide path")
+    parse.add_argument("--slide_path", default="", type=str, help="slide path")
     parse.add_argument("--level", default=1, type=int, help="level of slide")
     parse.add_argument("--patch_size", default=256, type=int, help="patch size")
     parse.add_argument("--step_size", default=256, type=int, help="step")
@@ -485,7 +485,7 @@ if __name__ == '__main__':
             # plt.show()
             #
            
-            heatmap, stitch_time_elapsed = stitching(grid, downscale=8)  # 第四步：根据提patch的点，把图片进行展示,downscale=64,开始是
+            heatmap, stitch_time_elapsed = stitching(grid, downscale=8) 
             stitch_path = os.path.join(args.save_sti,sn + '.png')
             heatmap.save(stitch_path)
 
